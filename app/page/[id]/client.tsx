@@ -13,6 +13,16 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
+} from "@/components/ui/dropdown-menu";
+import { Filter } from "lucide-react";
 
 export function PageClient({ id }: { id: string }) {
   const [pageData, setPageData] = useState<AngPageResponse | null>(null);
@@ -21,6 +31,15 @@ export function PageClient({ id }: { id: string }) {
   const router = useRouter();
   const currentPage = parseInt(id);
   const totalPages = 1430; // Total number of pages in Sri Guru Granth Sahib Ji
+  const [showGurmukhi, setShowGurmukhi] = useState(true);
+  const [showEnglish, setShowEnglish] = useState(false);
+  const [showPunjabi, setShowPunjabi] = useState(false);
+  const [showSpanish, setShowSpanish] = useState(false);
+  const [showHindi, setShowHindi] = useState(true);
+  const [showEnglishTranslit, setShowEnglishTranslit] = useState(true);
+  const [showHindiTranslit, setShowHindiTranslit] = useState(false);
+  const [showIpaTranslit, setShowIpaTranslit] = useState(false);
+  const [showUrduTranslit, setShowUrduTranslit] = useState(false);
 
   useEffect(() => {
     const loadPage = async () => {
@@ -103,60 +122,187 @@ export function PageClient({ id }: { id: string }) {
           />
         </div>
 
-        {/* Page Info and Pagination */}
+        {/* Page Info, Filter and Pagination */}
         <div className="flex flex-col gap-4">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  href={`/page/${currentPage - 1}`}
-                  aria-disabled={currentPage === 1}
-                  className={
-                    currentPage === 1 ? "pointer-events-none opacity-50" : ""
-                  }
-                />
-              </PaginationItem>
-              {renderPagination()}
-              <PaginationItem>
-                <PaginationNext
-                  href={`/page/${currentPage + 1}`}
-                  aria-disabled={currentPage === totalPages}
-                  className={
-                    currentPage === totalPages
-                      ? "pointer-events-none opacity-50"
-                      : ""
-                  }
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold">ਅੰਗ {pageData.page}</h1>
-            <div className="text-sm text-muted-foreground">
-              Total Verses: {pageData.count}
+            <div className="flex items-center gap-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 text-xs font-normal"
+                  >
+                    <Filter className="h-3.5 w-3.5 mr-2" />
+                    Display Options
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuLabel>Translations</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowGurmukhi(!showGurmukhi);
+                    }}
+                    className="flex items-center justify-between"
+                  >
+                    <span>ਗੁਰਮੁਖੀ</span>
+                    {showGurmukhi && <span className="text-xs">✓</span>}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowEnglish(!showEnglish);
+                    }}
+                    className="flex items-center justify-between"
+                  >
+                    <span>English</span>
+                    {showEnglish && <span className="text-xs">✓</span>}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowPunjabi(!showPunjabi);
+                    }}
+                    className="flex items-center justify-between"
+                  >
+                    <span>ਪੰਜਾਬੀ</span>
+                    {showPunjabi && <span className="text-xs">✓</span>}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowSpanish(!showSpanish);
+                    }}
+                    className="flex items-center justify-between"
+                  >
+                    <span>Español</span>
+                    {showSpanish && <span className="text-xs">✓</span>}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowHindi(!showHindi);
+                    }}
+                    className="flex items-center justify-between"
+                  >
+                    <span>हिंदी</span>
+                    {showHindi && <span className="text-xs">✓</span>}
+                  </DropdownMenuItem>
+
+                  <DropdownMenuLabel className="mt-2">
+                    Transliterations
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowEnglishTranslit(!showEnglishTranslit);
+                    }}
+                    className="flex items-center justify-between"
+                  >
+                    <span>English</span>
+                    {showEnglishTranslit && <span className="text-xs">✓</span>}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowHindiTranslit(!showHindiTranslit);
+                    }}
+                    className="flex items-center justify-between"
+                  >
+                    <span>Hindi</span>
+                    {showHindiTranslit && <span className="text-xs">✓</span>}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowIpaTranslit(!showIpaTranslit);
+                    }}
+                    className="flex items-center justify-between"
+                  >
+                    <span>IPA</span>
+                    {showIpaTranslit && <span className="text-xs">✓</span>}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowUrduTranslit(!showUrduTranslit);
+                    }}
+                    className="flex items-center justify-between"
+                  >
+                    <span>Urdu</span>
+                    {showUrduTranslit && <span className="text-xs">✓</span>}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
-        </div>
 
-        {/* Verses */}
-        <div className="space-y-4 bg-accent/5 rounded-lg p-6">
-          {pageData.verses.map((verse: AngVerse) => (
-            <div
-              key={verse._id}
-              className="p-3 rounded-lg transition-colors hover:bg-accent/20"
-            >
-              <div className="space-y-2">
-                <p className="text-xl font-gurmukhi leading-relaxed">
-                  {verse.verse.unicode}
-                </p>
-                <p className="text-base text-muted-foreground">
-                  {verse.translation.en.ssk ||
-                    verse.translation.en.bdb ||
-                    verse.translation.en.ms}
-                </p>
+          {/* Verses with conditional rendering */}
+          <div className="space-y-4 bg-accent/5 rounded-lg p-6">
+            {pageData.verses.map((verse: AngVerse, index: number) => (
+              <div
+                key={verse._id}
+                className={`p-3 rounded-lg transition-colors hover:bg-accent/20 ${
+                  index % 2 === 1 ? "bg-accent/50" : ""
+                }`}
+              >
+                <div className="space-y-2">
+                  {showGurmukhi && (
+                    <p className="text-3xl font-gurmukhi leading-relaxed">
+                      {verse.verse.unicode}
+                    </p>
+                  )}
+                  {showEnglish && (
+                    <p className="text-base text-muted-foreground">
+                      {verse.translation.en.ssk ||
+                        verse.translation.en.bdb ||
+                        verse.translation.en.ms}
+                    </p>
+                  )}
+                  {showPunjabi && verse.translation.pu?.ss && (
+                    <p className="text-base text-muted-foreground font-gurmukhi">
+                      {verse.translation.pu.ss.unicode}
+                    </p>
+                  )}
+                  {showSpanish && verse.translation.es?.sn && (
+                    <p className="text-base text-muted-foreground">
+                      {verse.translation.es.sn}
+                    </p>
+                  )}
+                  {showHindi && verse.translation.hi?.ss && (
+                    <p className="text-base text-muted-foreground">
+                      {verse.translation.hi.ss}
+                    </p>
+                  )}
+
+                  {showEnglishTranslit && verse.transliteration?.en && (
+                    <p className="text-base text-muted-foreground">
+                      {verse.transliteration.en}
+                    </p>
+                  )}
+                  {showHindiTranslit && verse.transliteration?.hi && (
+                    <p className="text-base text-muted-foreground">
+                      {verse.transliteration.hi}
+                    </p>
+                  )}
+                  {showIpaTranslit && verse.transliteration?.ipa && (
+                    <p className="text-base text-muted-foreground font-mono">
+                      {verse.transliteration.ipa}
+                    </p>
+                  )}
+                  {showUrduTranslit && verse.transliteration?.ur && (
+                    <p className="text-base text-muted-foreground">
+                      {verse.transliteration.ur}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

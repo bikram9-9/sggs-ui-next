@@ -14,6 +14,14 @@ export interface AngVerse {
     unicode: string;
   };
   translation: AngTranslation;
+  transliteration?: {
+    english?: string;
+    hindi?: string;
+    en?: string;
+    hi?: string;
+    ipa?: string;
+    ur?: string;
+  };
 }
 
 export interface AngTranslation {
@@ -46,5 +54,13 @@ export interface AngTranslation {
   hi?: {
     ss?: string;
     sts?: string;
+  };
+  transliteration?: {
+    english?: string;
+    hindi?: string;
+    en?: string;
+    hi?: string;
+    ipa?: string;
+    ur?: string;
   };
 }
