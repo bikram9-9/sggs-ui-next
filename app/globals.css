@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 30% 98%;
+    --foreground: 20 12% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 12% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 12% 12%;
+    --primary: 20 60% 25%;
+    --primary-foreground: 40 30% 98%;
+    --secondary: 40 10% 94%;
+    --secondary-foreground: 20 12% 12%;
+    --muted: 40 10% 94%;
+    --muted-foreground: 20 10% 40%;
+    --accent: 40 15% 92%;
+    --accent-foreground: 20 60% 25%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 40 30% 98%;
+    --border: 20 15% 90%;
+    --input: 20 15% 90%;
+    --ring: 20 60% 25%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 230 25% 12%;
+    --foreground: 210 20% 98%;
+    --card: 230 25% 15%;
+    --card-foreground: 210 20% 98%;
+    --popover: 230 25% 15%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 210 40% 88%;
+    --primary-foreground: 230 25% 12%;
+    --secondary: 230 25% 18%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 230 25% 18%;
+    --muted-foreground: 210 20% 70%;
+    --accent: 230 25% 20%;
+    --accent-foreground: 210 40% 88%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 230 25% 22%;
+    --input: 230 25% 22%;
+    --ring: 210 40% 88%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.font-gurmukhi {
+  font-family: 'Arial Unicode MS', sans-serif;
+  line-height: 1.5;
+}
