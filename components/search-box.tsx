@@ -4,19 +4,27 @@ import { useState, useRef, useEffect } from "react";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Command, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
+import {
+  Command,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+} from "@/components/ui/command";
 import { useDebounce } from "@/hooks/use-debounce";
-import { searchGurbani, type SearchResult } from "@/lib/api";
+import { AutocompleteSearchResponse } from "@/lib/types/autocomplete-response.type";
+import { searchGurbani } from "@/lib/api";
 import { useRouter } from "next/navigation";
 
 interface SearchBoxProps {
-  onResultSelect: (result: SearchResult) => void;
+  searchType: string;
+  onResultSelect: (result: AutocompleteSearchResponse) => void;
 }
 
-export function SearchBox({ onResultSelect }: SearchBoxProps) {
+export function SearchBox({ searchType, onResultSelect }: SearchBoxProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<SearchResult[]>([]);
+  const [results, setResults] = useState<AutocompleteSearchResponse[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const debouncedQuery = useDebounce(query, 300);
@@ -36,7 +44,7 @@ export function SearchBox({ onResultSelect }: SearchBoxProps) {
         setResults(searchResults);
         setIsOpen(true);
       } catch (error) {
-        console.error('Search failed:', error);
+        console.error("Search failed:", error);
       } finally {
         setIsLoading(false);
       }
@@ -45,10 +53,10 @@ export function SearchBox({ onResultSelect }: SearchBoxProps) {
     performSearch();
   }, [debouncedQuery]);
 
-  const handleSelect = (result: SearchResult) => {
+  const handleSelect = (result: AutocompleteSearchResponse) => {
     setQuery("");
     setIsOpen(false);
-    router.push(`/shabad/${result.shabadId}?page=${result.pageNo}&line=${result.lineNo}`);
+    router.push(`/${searchType}/page/${result.pageNo}`);
     onResultSelect(result);
   };
 
@@ -61,7 +69,7 @@ export function SearchBox({ onResultSelect }: SearchBoxProps) {
           placeholder="Enter first letters..."
           className="h-12 text-lg pr-12 rounded-xl focus-visible:ring-0 focus-visible:ring-offset-0 bg-background border-input"
         />
-        <Button 
+        <Button
           className="absolute right-0 top-0 h-12 px-6 rounded-r-xl"
           variant="ghost"
           disabled={isLoading}
@@ -86,8 +94,12 @@ export function SearchBox({ onResultSelect }: SearchBoxProps) {
                       onSelect={() => handleSelect(result)}
                       className="flex flex-col items-start py-3 px-4 cursor-pointer"
                     >
-                      <span className="text-lg font-gurmukhi">{result.gurmukhi}</span>
-                      <span className="text-sm text-muted-foreground">{result.english}</span>
+                      <span className="text-lg font-gurmukhi">
+                        {result.gurmukhi}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {result.english}
+                      </span>
                       <span className="text-xs text-muted-foreground mt-1">
                         Page: {result.pageNo}, Line: {result.lineNo}
                       </span>
