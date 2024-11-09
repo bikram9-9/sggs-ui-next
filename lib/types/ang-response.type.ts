@@ -9,6 +9,7 @@ export interface AngVerse {
   pageNo: number;
   lineNo: number;
   verseId: number;
+  shabadId: string;
   verse: {
     gurmukhi: string;
     unicode: string;

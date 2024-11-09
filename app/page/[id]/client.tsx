@@ -318,6 +318,7 @@ export function PageClient({ id }: { id: string }) {
       <ShabadsSection
         isOpen={showShabads}
         onToggle={() => setShowShabads(!showShabads)}
+        shabadNumber={pageData.verses[0].shabadId}
       />
     </div>
   );
